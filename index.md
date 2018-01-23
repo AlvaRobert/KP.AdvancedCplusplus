@@ -10,6 +10,31 @@ summary(cars)
 
 ## Advanced C++: Operator Overloading
 
+### Operators
+
+Definition: Symbol for the compiler to perform speciﬁc mathematical, logical manipulations, or other special operation.
+
+A binary operator takes two operands
+
+A unary operator takes one operand
+
+Example:
++ arithmetic operator: + , -, *, /
++ logical operator: && and ||
++ pointer operator: & and *
++ memory management operator: new, delete[ ]
+
+### Operator Overloading
+
+Arithmetic operator such as + are already overloaded in C/C++ for diﬀerent built-in types:
+
+Reference-style: 
+![alt text][logo]
+
+[logo]: https://github.com/adam-p/markdown-here/raw/master/assets/images/add1.png "Logo Title Text 2"
+
+
+
 You can also embed plots, for example:
 
 ```{r pressure, echo=FALSE}

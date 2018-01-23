@@ -1,7 +1,7 @@
 # AdvancedC++: Advanced C++: Operator Overloading and Template Meta-Programming
 --- 
 
-[Blockpost for Advanced C++](https://github.com/AlvaRobert/KP.AdvancedCplusplus/blob/master/index.Rmd)
+[Blockpost for Advanced C++](./index.md)
 
 ---
 

@@ -12,21 +12,21 @@
 
 ## Gliederung
 
-+ Operator Overloading
-+ Operators
-+ Definition
-+ Overloadable/Non-overloadable Operators
-+ Understanding the Syntax
-+ Guidelines
+1. **Operator Overloading**
+    + Operators
+    + Definition
+    + Overloadable/Non-overloadable Operators
+    + Understanding the Syntax
+    + Guidelines
 
-+ Template Meta Programming
-+ Templates 
-+ History
-+ Basic Techniques
-+ Advanced Concepts
-+ Pros and Cons
+2. **Template Meta Programming**
+    + Templates 
+    + History
+    + Basic Techniques
+    + Advanced Concepts
+    + Pros and Cons
 
 ## Assignment
 
-[Read the spec here](./index.md) or as [PDF](./assets/documents/AssignmentSpec.pdf).
-
++ [Read the spec here](./index.md) or as [PDF](todo!).
++ [Slides](./assets/documents/Advanced_C_final.pptx)

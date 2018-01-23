@@ -3,7 +3,7 @@ title: "Advanced C++: Operator Overloading and Template Meta-Programming"
 ---
 
 
-## R Markdown
+## Advanced C++
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
@@ -13,7 +13,7 @@ When you click the **Knit** button a document will be generated that includes bo
 summary(cars)
 ```
 
-## Including Plots
+## Advanced C++: Operator Overloading
 
 You can also embed plots, for example:
 
@@ -22,3 +22,6 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+## Advanced C++: Template Meta-Programming

@@ -28,5 +28,6 @@
 
 ## Assignment
 
-+ [Read the spec here](./index.md) or as [PDF](todo!).
-+ [Slides](./assets/documents/Advanced_C_final.pptx)
++ [Read the Blockpost here](./index.md) or as [PDF](todo!).
++ [Slides](https://inf-git.fh-rosenheim.de/sMECrojask/KP_Cplusplus_Adv/blob/master/Advanced%20C++%20final.pdf)
++ [Übungen](https://inf-git.fh-rosenheim.de/sMECrojask/KP_Cplusplus_Adv)

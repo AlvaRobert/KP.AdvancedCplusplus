@@ -14,9 +14,17 @@ summary(cars)
 
 Definition: Symbol for the compiler to perform speciﬁc mathematical, logical manipulations, or other special operation.
 
-A binary operator takes two operands
+A binary operator takes two operands:
+```{r pressure, echo=FALSE}
+2 / 3 //Integer division: Result is 0
+2.0 / 3.0 //Floating-point division: Result is 0.6666667
+```
 
-A unary operator takes one operand
+A unary operator takes one operand:
+```{r pressure, echo=FALSE}
+2 / 3 //Integer division: Result is 0
+2.0 / 3.0 //Floating-point division: Result is 0.6666667
+```
 
 Example:
 + arithmetic operator: + , -, *, /
@@ -26,22 +34,40 @@ Example:
 
 ### Operator Overloading
 
-Arithmetic operator such as + are already overloaded in C/C++ for diﬀerent built-in types:
++ arithmetic operator such as + are already overloaded in C/C++ for diﬀerent built-in types:
+ 
+    ![alt text][logo]
 
-Reference-style: 
-![alt text][logo]
-
-[logo]: ./assets/images/add1.PNG "already overloaded operators"
-
-
-
-You can also embed plots, for example:
++ diﬀerent algorithms are used to compute different types of addition:
 
 ```{r pressure, echo=FALSE}
-plot(pressure)
+2 / 3 //Integer division: Result is 0
+2.0 / 3.0 //Floating-point division: Result is 0.6666667
+```
++ different calls:
+
+```{r pressure, echo=FALSE}
+int main()
+{
+    int first = 43;
+    int sec = 3465;
+
+    int result = first + sec;
+    result = +(first + sec); //attention
+    result = add(first, sec); //see picture above
+}
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Folie 6
+
 
 
 ## Advanced C++: Template Meta-Programming
+
+
+
+
+
+
+
+[logo]: ./assets/images/add1.PNG "already overloaded operators"

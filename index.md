@@ -1,4 +1,4 @@
-## Advanced C++
+# Advanced C++
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
@@ -8,9 +8,9 @@ When you click the **Knit** button a document will be generated that includes bo
 summary(cars)
 ```
 
-## Advanced C++: Operator Overloading
+# Advanced C++: Operator Overloading
 
-### Operators
+## Operators
 
 Definition: Symbol for the compiler to perform speciﬁc mathematical, logical manipulations, or other special operation.
 
@@ -31,8 +31,8 @@ Example:
 + logical operator: && and ||
 + pointer operator: & and *
 + memory management operator: new, delete[ ]
-
-### Operator Overloading
+___
+## Operator Overloading
 
 + arithmetic operator such as + are already overloaded in C/C++ for diﬀerent built-in types:
  
@@ -71,7 +71,7 @@ The User can address the overloaded build-in definition of the +-Operator for th
 Overloaded operators have appropriate meaning to user-defined types, so they can be used for these types. e.g. to use operator + for adding two objects of a user-defined class.
 
 
-#### Overloading an Operator
+### Overloading an Operator
 
 ```c++
 class complex
@@ -113,13 +113,13 @@ When an operator appears in an expression, and at least one of its operands has 
 This allows to define the behavior of operators when applied to objects of a class. There is no reason to overload an operator except if it
 will make the code involving your class easier to write and especially easier to read!
 
-
-### Overloadable/Non-overloadable Operators
+___
+## Overloadable/Non-overloadable Operators
 
 ![alt text][OOs]
 
-
-### Guidelines
+___
+## Guidelines
 + OO does not allow altering the meaning of operators when applied to built-in types, therefore one of the operands must be an object of a class
 
 + OO does not allow defining new operator symbols, only those provided in the language can be used to override for a new type of data
@@ -130,37 +130,108 @@ will make the code involving your class easier to write and especially easier to
 
 + OO should provide consistent definitions (if + is overloaded, then += should also be overloaded)
 
+___
+## Syntax
 
-### Syntax
+![alt text][Syntax]
+
+Overloading operators is similar to overloading functions, except the function name is replaced with the keyword operator with the operator’s symbol added. Overloading operators for userdefined objects makes the code easier to understand and it is sensitive to the applications context. Therefore it is simple to understand the addition of the class apples or the addition of two fraction-objects.
+
+```c++
+object2 = object2.add(object1);
+object2 = operator+(object2, object1);
+object2 = object2 + object1;
+```
+___
+## Types of Operators and canonical Implementations
+
+### Unary Operators
+
+should always be overloaded as members, since the first argument must be an object of a class
+```c++
+class complex
+{
+    int real, imag;
+    complex operator+=(int i)
+    {
+        complex c;
+        c.real = real + i;
+        c.imag = imag;
+        return c;
+    }
+}
+```
+
+### Binary operators / Shift Operators
+
+should always be overloaded as friend function, since often the new function may require access to private parts of the object
+```c++
+class complex
+{
+    int real, imag;
+public:
+    friend complex operator+(complex A, complex B);
+}
+complex operator+(complex A, complex B)
+{
+    complex c;
+    c.real = B.real + A.real;
+    c.imag = B.imag + A.imag;
+    return c;
+}
+```
+Binary operators are typically implemented as non-members, to embody the possibility to add a integer to the complex object. (If the +-operator is only implemented as member function, only complex+integer would compile, and not integer+complex)
+
+### Conversion operator
+
+are used for converting the object to another class (even base types)
+```c++
+struct Fraction
+{
+    int numerator;
+    int denominator;
+
+    operator float() const { return numerator *1.0f / denominator;}
+};
+int main()
+{
+    Fraction fract;
+    fract.numerator = 3; fract.denominator = 4;
+    float value = fract;                        // value = 0.75
+}
+``` 
+
+### Commonly overloaded operators have the following typical, canonical forms:
+
+#### Canonical copy-assignment operator
+
+expected to perform no action on self-assignment, and to return by reference
+
+![alt-text][copyOp.PNG]
+
+#### move assignment
+expected to leave the moved-from object in valid state
+
+![alt-text][moveOp.PNG]
+
+#### Stream extraction and insertion
+
+#### Function call operator
+
+#### Increment and decrement
+
+#### Best Practises
+
+## Author´s Opinion on OO
+On one hand operator overloading makes your program easier to write and to understand, on the other hand overloading does not actually add any capabilities to C++. Everything you can do with an overloaded operator you can also do with a function. However, overloaded operators make your programs easier to write, read, and maintain which in fact is a great benefit! So i would personally recommend to overload operators for defined object, if it fits the application.
 
 
-//NOTES:
-
- If we use a class member function to overload a
-binary operator, the member function has only one
-parameter.
-
- Similarly, if we use a class member function to
-overload a unary operator, the member function
-has no parameters.
 
 
 
-Operator overloading makes your program easier to write
-and to understand.
-►Overloading does not actually add any capabilities to C++.
-Everything you can do with an overloaded operator you
-can also do with a function.
-►However, overloaded operators make your programs
-easier to write, read, and maintain.
+# Advanced C++: Template Meta-Programming
 
-
-
-
-
-## Advanced C++: Template Meta-Programming
-
-### Templates in C++
+## Templates in C++
 
 Templates offer the possibility in C++ to program in a generic way and to create type-safe containers. There are class templates and function templates.
 The following example shows a function template. It should be noted here that the keyword typename can also be replaced by class. For simple templates, there is no right or wrong. In the main method, the template is used in different ways. initially it is applied to the types int and double. in the next line you see a special case, different types are compared. this is not possible here, but with the addition <double> the integer is cast on double.
@@ -183,12 +254,12 @@ int main()
 }
 ```
 
-### History of Template Meta Programming
+## History of Template Meta Programming
 
 Templates are turing-complete. Also, they were evaluated at the compile time. That means, that all functions, that can be calculated, can be calculated with C++ Templates at compile time.
 In 1994, Erwin Unruh von Siemens-Nixdorf presented a program to the C++ Standard Committee, which calculated the primes up to 30 and returned them in the form of error messages. Thus he proved this fact.
 
-### Basic Techniques of Template Meta Programming
+## Basic Techniques of Template Meta Programming
 
 The following section will first provide an overview of important basics of template meta-programming.
 
@@ -366,7 +437,7 @@ struct is_prim <0>
 };
 ```
 
-### Advanced Concepts
+## Advanced Concepts
 
 **Unrolled loops**
 
@@ -381,3 +452,6 @@ struct is_prim <0>
 
 [logo]: ./assets/images/add1.PNG "already overloaded operators"
 [OOs]: ./assets/images/DNoverloadable.PNG "Overloadable / Non-overloadable Operators"
+[Syntax]: ./assets/images/syntax.PNG "OO Syntax"
+[copyOp.PNG]: ./assets/images/copyOp.PNG "copy assignment operator"
+[moveOp.PNG]: ./assets/images/moveOp.PNG "move assignment operator"

@@ -16,14 +16,14 @@ Definition: Symbol for the compiler to perform speciﬁc mathematical, logical m
 
 A binary operator takes two operands:
 ```c++
-2 / 3 //Integer division: Result is 0
-2.0 / 3.0 //Floating-point division: Result is 0.6666667
+int i;      
+i = 7+7;         // i = 14; 
 ```
 
 A unary operator takes one operand:
 ```c++
-2 / 3 //Integer division: Result is 0
-2.0 / 3.0 //Floating-point division: Result is 0.6666667
+int i = 0;      // i = 0
+i += 7;         // i = 7; 
 ```
 
 Example:
@@ -36,7 +36,10 @@ Example:
 
 + arithmetic operator such as + are already overloaded in C/C++ for diﬀerent built-in types:
  
-    ![alt text][logo]
+ ```c++
+int result = 3 + 4; // result = 7
+ ```
+
 
 + diﬀerent algorithms are used to compute different types of addition:
 
@@ -49,16 +52,109 @@ Example:
 ```c++
 int main()
 {
+
+    int add(int left, int right)
+    {
+        return left + right;
+    };
+
     int first = 43;
     int sec = 3465;
 
-    int result = first + sec;
-    result = +(first + sec); //attention
-    result = add(first, sec); //see picture above
+    int FirstResult = first + sec;
+    int SecondResult = +(first + sec); //does not behave like expected
+    int ThirdResult = add(first, sec); //see function above
+}
+```
+The User can address the overloaded build-in definition of the +-Operator for the basic Int type in different ways. To simplyfy the programmcode and to have a method for overloading operators for custom types, Operator Overloading was implemented as a feature for C++. 
+
+Overloaded operators have appropriate meaning to user-defined types, so they can be used for these types. e.g. to use operator + for adding two objects of a user-defined class.
+
+
+#### Overloading an Operator
+
+```c++
+class complex
+{
+    int real, imag;
+public:
+    void input()
+    {
+        //assign the ints..
+    }
+    ...
+
+    complex operator+(complex A, complex B)
+    {
+        complex C;
+        C.real = B.real + A.real;
+        C.imag = B.imag + A.imag;
+    }
+    complex operator+(complex A, int i)
+    {
+        complex C;
+        C.real = A.real + i;
+        c.imag = A.imag;
+        return C;
+    }
+}
+
+int main()
+{
+    complex c1, c2;
+    c1.input();
+
+    c2 = c1 + 7; // Compiler searching for overloaded function in class complex
 }
 ```
 
-Folie 6
+When an operator appears in an expression, and at least one of its operands has a **class type or an enumeration type**, then overload resolution is used to determine the user-defined function to be called among all the functions whose signatures match it.
+
+This allows to define the behavior of operators when applied to objects of a class. There is no reason to overload an operator except if it
+will make the code involving your class easier to write and especially easier to read!
+
+
+### Overloadable/Non-overloadable Operators
+
+![alt text][OOs]
+
+
+### Guidelines
++ OO does not allow altering the meaning of operators when applied to built-in types, therefore one of the operands must be an object of a class
+
++ OO does not allow defining new operator symbols, only those provided in the language can be used to override for a new type of data
+
++ OO does not allow to change the number of operands an operator expects, precedence and associativity of operators or default arguments with operators 
+
++ OO should not change the meaning of the operator (+ does not mean subtraction!), the nature of the operator (3+4  == 4+3) or the data types and residual value expected 
+
++ OO should provide consistent definitions (if + is overloaded, then += should also be overloaded)
+
+
+### Syntax
+
+
+//NOTES:
+
+ If we use a class member function to overload a
+binary operator, the member function has only one
+parameter.
+
+ Similarly, if we use a class member function to
+overload a unary operator, the member function
+has no parameters.
+
+
+
+Operator overloading makes your program easier to write
+and to understand.
+►Overloading does not actually add any capabilities to C++.
+Everything you can do with an overloaded operator you
+can also do with a function.
+►However, overloaded operators make your programs
+easier to write, read, and maintain.
+
+
 
 
 
@@ -280,6 +376,8 @@ struct is_prim <0>
 
 
 
+![alt text][logo]
 
 
 [logo]: ./assets/images/add1.PNG "already overloaded operators"
+[OOs]: ./assets/images/DNoverloadable.PNG "Overloadable / Non-overloadable Operators"

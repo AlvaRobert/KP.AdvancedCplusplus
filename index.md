@@ -162,7 +162,7 @@ class complex
 }
 ```
 
-### Binary operators / Shift Operators
+### Binary operators / shift operators
 
 should always be overloaded as friend function, since often the new function may require access to private parts of the object
 ```c++
@@ -209,18 +209,130 @@ expected to perform no action on self-assignment, and to return by reference
 
 ![alt-text][copyOp.PNG]
 
-#### move assignment
+#### Canonical move assignment
 expected to leave the moved-from object in valid state
 
 ![alt-text][moveOp.PNG]
 
 #### Stream extraction and insertion
 
+take a std::istream& or std::ostream& as the left hand argument. Also known as insertion and extraction operators. These operators must be overloaded as non-members, due to user-defined type as the right argument.
+
+```c++
+class complex
+{
+    int real, imag;
+public:
+    friend std::ostream& operator<<(std::ostream& stream, const complex& arg);
+}
+std::ostream& operator<<(std::ostream& stream, const complex& arg)
+{
+    cout << "{" << arg.real << "+" << arg.imag << "i" << "}";
+    return stream;
+}
+```
+
 #### Function call operator
 
+When a user-defined class overloads the function call operator (operator())it becomes a FunctionObject type. Standard algorithms (std::sort…) accept objects of such types to customize behavior.
+
+```c++
+struct Sum
+{
+    int sum;
+    Sum() : sum(0) { }
+    void operator()(int n) { sum += n; }
+};
+Sum s = std::for_each(v.begin(), v.end(), Sum());
+```
+
 #### Increment and decrement
+The increment / decrement can be used in both the prefix and postfix form, but with different meanings: In the prefix form, the residual value is the post incremented or post decremented value. In the postfix form, the residual value is the pre incremented or pre decremented value. These are unary operators, so they should be overloaded as members.
+
+To distinguish the prefix from the postfix forms, the  C++ standard has added an unused argument (int) to represent the postfix signature. Since these operators should modify the current object,they should not be const members.
+
+```c++
+struct X
+{
+    X& operator++()
+    {
+        //actual increment takes place here
+        return *this;
+    }
+    X operator++(int)
+    {
+        X tmp(*this);   // copy
+        operator++();   // pre-increment
+        return tmp;     // return old value
+    }
+};
+```
+#### Relational operators
+Standard algorithms such as std::sort expect operator< to be defined for the user-provided types
+
+```c++
+struct Record
+{
+    std::string name;
+    unsigned int floor;
+    double weight;
+    friend bool operator<(const Record& l, const Record& r)
+    {
+        return std::tie(l.name, l.floor, l.weight) 
+            <  std::tie(l.name, l.floor, l.weight); // keep the same order
+    }
+}
+```
+Typically, once operator< is provided, the other relational operators are implemented in terms of operator<:
+```c++
+inline bool operator< (const X& lhs, const X& rhs){ /*do the actual comparison*/ }
+inline bool operator> (const X& lhs, const X& rhs){ return rhs < lhs; }
+inline bool operator<=(const X& lhs, const X& rhs){ return !(lhs > rhs); }
+inline bool operator>=(const X& lhs, const X& rhs){ return !(lhs < rhs); }
+```
+Likewise, the inequality operator is typically implemented in terms of operator==:
+```c++
+inline bool operator==(const X& lhs, const X& rhs){ /*do the actual comparison*/ }
+inline bool operator!=(const X& lhs, const X& rhs){ return !(lhs == rhs); }
+```
+
+#### Bitwise arithmetic operators
+User-defined classes and enumerations that implement the requirements of BitmaskType are required to overload the bitwise arithmetic operators:
+
+|         |            |           |          |           |   |
+| ---------  |-----------   | -----       | ---         |  ---    | --- |
+| operator&  | operator\|   | operator^   |  operator&= |  operator\|= | operator~   |
+								 
+and may optionally overload the shift operators: 
+|         |            |           |          |         
+| ---------  |-----------   | -----       | ---         |  
+operator<<	|	operator>>	|	operator>>=	|	operator<<= |
+
+The canonical implementations usually follow the pattern for binary arithmetic operators described above.
+
+
+#### Rarely overloaded operators
++ The address-of operator : operator&
+    + there are little to no use-cases that need to overload the default behavior of the address operator
++ The boolean logic operators : operator&& and operator||
+    + Unlike the built-in versions, the overloads cannot implement short-circuit evaluation
+    + the overloads do not sequence their left operand before the right one
++ The comma operator : operator,
+    + Unlike the built-in version, the overloads do not sequence their left operand before the right one
++ The member access through pointer to member : operator->*
+    + no specific downsides to overloading this operator, but it is rarely used in practice
+
+
 
 #### Best Practises
++ there is no reason to overload an operator, if it won´t make the code easier to understand
+
+```c++
+// Skalarproduct returns int
+friend int operator*(const Vector3d& left, const Vector3d& right); 
+// Crossproduct returns new Vector
+friend Vector3d operator*(const Vector3d& left, const Vector3d& right); 
+```
 
 ## Author´s Opinion on OO
 On one hand operator overloading makes your program easier to write and to understand, on the other hand overloading does not actually add any capabilities to C++. Everything you can do with an overloaded operator you can also do with a function. However, overloaded operators make your programs easier to write, read, and maintain which in fact is a great benefit! So i would personally recommend to overload operators for defined object, if it fits the application.
@@ -229,9 +341,9 @@ On one hand operator overloading makes your program easier to write and to under
 
 
 
-# Advanced C++: Template Meta-Programming
+## Template Meta Programming
 
-## Templates in C++
+### Templates in C++
 
 Templates offer the possibility in C++ to program in a generic way and to create type-safe containers. There are class templates and function templates.
 The following example shows a function template. It should be noted here that the keyword typename can also be replaced by class. For simple templates, there is no right or wrong. In the main method, the template is used in different ways. initially it is applied to the types int and double. in the next line you see a special case, different types are compared. this is not possible here, but with the addition <double> the integer is cast on double.
@@ -254,12 +366,12 @@ int main()
 }
 ```
 
-## History of Template Meta Programming
+### History of Template Meta Programming
 
 Templates are turing-complete. Also, they were evaluated at the compile time. That means, that all functions, that can be calculated, can be calculated with C++ Templates at compile time.
 In 1994, Erwin Unruh von Siemens-Nixdorf presented a program to the C++ Standard Committee, which calculated the primes up to 30 and returned them in the form of error messages. Thus he proved this fact.
 
-## Basic Techniques of Template Meta Programming
+### Basic Techniques of Template Meta Programming
 
 The following section will first provide an overview of important basics of template meta-programming.
 
@@ -437,13 +549,38 @@ struct is_prim <0>
 };
 ```
 
-## Advanced Concepts
+### Advanced Concepts
 
 **Unrolled loops**
 
+Quite often happens that for certain calculations, in particular at the
+use of dynamic data structures, loops are used. In time-critical applications, loops are often "rolled up", if possible. Rolling up means that the instructions are repeated within a loop
+written among each other, so that can be dispensed with the loop. This can greatly reduce the number of total instructions executed.
+Since all control instructions of the loop are eliminated. In addition, there are no jumps in pure calculations, which additionally increases the execution speed.
+A downside to manually rolled loops is that they add dynamics and portability
+of the code very restrict. For example, high rendition of algorithms would result
+for different configurations.
+Through template metaprogramming, loops can be modeled that have a generality
+and a dynamic character when used at development time
+to have. After compiling such code, the compiler then generates loopless,
+in the optimal case, minimal instruction sequences.
+
 **Expression templates**
 
-**Variadic templates ???**
+Expression templates are probably the prime example of template metaprogramming.
+Generally, templates are called expression templates,
+if they can manipulate specific expressions or even enable them. Let it be
+even using Expression Templates to model completely new languages,
+which can be used within C ++. One speaks here of so-called
+DSLs (domain specific languages) or DSELs (domain specific embedded languages).
+These are languages that usually have a high degree of abstraction and a high significance
+in terms of concrete problem areas.
+
+**Variadic templates**
+
+**Conclusion**
+
+In my opinion, template meta programming is an interesting type of programming that you should always keep in mind. For special problems and especially for very time-critical applications, template meta programming can be a good choice. However, this is always associated with increased effort in programming and less readable and poorly maintainable code. therefore template meta programming should be used with caution and attention should be paid to how familiar the rest of the team is with the topic.
 
 
 

@@ -3,7 +3,7 @@
 
 ## Operators
 
-Definition: Symbol for the compiler to perform speciﬁc mathematical, logical manipulations, or other special operation.
+Definition: A operator is a symbol for the compiler to perform speciﬁc mathematical, logical manipulations or other special operations.
 
 A binary operator takes two operands:
 ```c++
@@ -18,27 +18,28 @@ i += 7;         // i = 7;
 ```
 
 Example:
-+ arithmetic operator: + , -, *, /
-+ logical operator: && and ||
-+ pointer operator: & and *
-+ memory management operator: new, delete[ ]
+
+* arithmetic operator: + , -, *, /
+* logical operator: && and ||
+* pointer operator: & and *
+* memory management operator: new, delete[ ]
 ___
 ## Operator Overloading
 
-+ arithmetic operator such as + are already overloaded in C/C++ for diﬀerent built-in types:
+* arithmetic operator such as + are already overloaded in C/C++ for built-in types:
  
  ```c++
 int result = 3 + 4; // result = 7
  ```
 
 
-+ diﬀerent algorithms are used to compute different types of addition:
+* diﬀerent algorithms are used to compute different types of addition:
 
 ```c++
 2 / 3 //Integer division: Result is 0
 2.0 / 3.0 //Floating-point division: Result is 0.6666667
 ```
-+ different calls:
+* different calls:
 
 ```c++
 int main()
@@ -57,7 +58,7 @@ int main()
     int ThirdResult = add(first, sec); //see function above
 }
 ```
-The User can address the overloaded build-in definition of the +-Operator for the basic Int type in different ways. To simplyfy the programmcode and to have a method for overloading operators for custom types, Operator Overloading was implemented as a feature for C++. 
+The User can address the overloaded build-in definition of the +-operator for the basic int type in different ways. To simplyfy the programmcode and to have a method for overloading operators for custom types, Operator Overloading was implemented in C++. 
 
 Overloaded operators have appropriate meaning to user-defined types, so they can be used for these types. e.g. to use operator + for adding two objects of a user-defined class.
 
@@ -118,23 +119,26 @@ Following is the list of operators which can be overloaded:
 | -> | ->* | new | new [] | delete | delete [] |
 
 Following is the list of operators, which can not be overloaded:
-|      |     |     |     |     |     |
-| ---  | --- | --- | --- | --- | --- |
-| :: | .* | . | ?: | sizeof| typeid |
+
+|      |     |     |     |        |        |
+| ---  | --- | --- | --- | ---    | ---    |
+| ::   | .*  | .   | ?:  | sizeof | typeid |
 
 
 
 ___
+
+
 ## Guidelines
-+ OO does not allow altering the meaning of operators when applied to built-in types, therefore one of the operands must be an object of a class
+* OO does not allow altering the meaning of operators when applied to built-in types, therefore one of the operands must be an object of a class
 
-+ OO does not allow defining new operator symbols, only those provided in the language can be used to override for a new type of data
+* OO does not allow defining new operator symbols, only those provided in the language can be used to override for a new type of data
 
-+ OO does not allow to change the number of operands an operator expects, precedence and associativity of operators or default arguments with operators 
+* OO does not allow to change the number of operands an operator expects, precedence and associativity of operators or default arguments with operators 
 
-+ OO should not change the meaning of the operator (+ does not mean subtraction!), the nature of the operator (3+4  == 4+3) or the data types and residual value expected 
+* OO should not change the meaning of the operator (+ does not mean subtraction!), the nature of the operator (3+4  == 4+3) or the data types and residual value expected 
 
-+ OO should provide consistent definitions (if + is overloaded, then += should also be overloaded)
+* OO should provide consistent definitions (if + is overloaded, then += should also be overloaded)
 
 ___
 ## Syntax
@@ -150,17 +154,18 @@ T operator+(T A, T B)
 
 Overloading operators is similar to overloading functions, except the function name is replaced with the keyword operator with the operator’s symbol added. Overloading operators for userdefined objects makes the code easier to understand and it is sensitive to the applications context. Therefore it is simple to understand the addition of the class apples or the addition of two fraction-objects.
 
+Call the overloaded Operator:
 ```c++
-object2 = object2.add(object1);
-object2 = operator+(object2, object1);
-object2 = object2 + object1;
+object2 = object2.add(object1);         // use function
+object2 = operator+(object2, object1);  // use OO like a function call
+object2 = object2 + object1;            // use the simple operation
 ```
 ___
 ## Types of Operators and canonical Implementations
 
 ### Unary Operators
 
-should always be overloaded as members, since the first argument must be an object of a class
+should always be overloaded as members, since the first argument must be an object of a class.
 ```c++
 class complex
 {
@@ -177,7 +182,7 @@ class complex
 
 ### Binary operators / shift operators
 
-should always be overloaded as friend function, since often the new function may require access to private parts of the object
+should always be overloaded as friend function, since often the new function may require access to private parts of the object.
 ```c++
 class complex
 {
@@ -193,11 +198,11 @@ complex operator+(complex A, complex B)
     return c;
 }
 ```
-Binary operators are typically implemented as non-members, to embody the possibility to add a integer to the complex object. (If the +-operator is only implemented as member function, only complex+integer would compile, and not integer+complex)
+Binary operators are typically implemented as non-members, to embody the possibility to add a integer to the complex object. (If the +-operator is only implemented as member function, only complex+integer would compile,integer+complex would result in a compile error.)
 
 ### Conversion operator
 
-are used for converting the object to another class (even base types)
+The conversion operator is used for converting the object to another class (even base types).
 ```c++
 struct Fraction
 {
@@ -214,11 +219,13 @@ int main()
 }
 ``` 
 
-### Commonly overloaded operators have the following typical, canonical forms:
+### Canonical implementations
+
+Commonly overloaded operators have the following typical, canonical forms:
 
 #### Canonical copy-assignment operator
 
-expected to perform no action on self-assignment, and to return by reference
+is expected to perform no action on self-assignment, and to return by reference.
 
 ```c++
 //assume the object holds reusable storage, such as a heap-allocated buffer mArray
@@ -240,7 +247,8 @@ T& operator=(const T& other) // copy assignment
 ```
 
 #### Canonical move assignment
-expected to leave the moved-from object in valid state
+
+is expected to leave the moved-from object in valid state.
 
 ```c++
 T& operator=(T&& other) noexcept // move assignment
@@ -257,7 +265,7 @@ T& operator=(T&& other) noexcept // move assignment
 
 #### Stream extraction and insertion
 
-take a std::istream& or std::ostream& as the left hand argument. Also known as insertion and extraction operators. These operators must be overloaded as non-members, due to user-defined type as the right argument.
+These take a std::istream& or std::ostream& as the left hand argument. They are also known as insertion and extraction operators and have to be overloaded as non-members, due to the user-defined type as the right argument.
 
 ```c++
 class complex
@@ -275,7 +283,7 @@ std::ostream& operator<<(std::ostream& stream, const complex& arg)
 
 #### Function call operator
 
-When a user-defined class overloads the function call operator (operator())it becomes a FunctionObject type. Standard algorithms (std::sort…) accept objects of such types to customize behavior.
+When a user-defined class overloads the function call operator (operator()) it becomes a FunctionObject type. Standard algorithms (std::sort …) accept objects of such types to customize behavior.
 
 ```c++
 struct Sum
@@ -288,7 +296,9 @@ Sum s = std::for_each(v.begin(), v.end(), Sum());
 ```
 
 #### Increment and decrement
-The increment / decrement can be used in both the prefix and postfix form, but with different meanings: In the prefix form, the residual value is the post incremented or post decremented value. In the postfix form, the residual value is the pre incremented or pre decremented value. These are unary operators, so they should be overloaded as members.
+The increment / decrement can be used in both the prefix and postfix form, but with different meanings: 
+
+In the prefix form, the residual value is the post incremented or post decremented value. In the postfix form, the residual value is the pre incremented or pre decremented value. These are unary operators, so they should be overloaded as members.
 
 To distinguish the prefix from the postfix forms, the  C++ standard has added an unused argument (int) to represent the postfix signature. Since these operators should modify the current object,they should not be const members.
 
@@ -309,7 +319,7 @@ struct X
 };
 ```
 #### Relational operators
-Standard algorithms such as std::sort expect operator< to be defined for the user-provided types
+Standard algorithms such as std::sort can be used for user-provided types, if the operator< is overloaded.
 
 ```c++
 struct Record
@@ -348,40 +358,70 @@ and may optionally overload the shift operators:
 
 |      |     |     |     |     |     |
 | ---  | --- | --- | --- | --- | --- |
-| operator<< | operator>> | operator>>= | operator<<= | | | 
+| operator<< | operator>> | operator>>= | operator<<= |  |  | 
 
 The canonical implementations usually follow the pattern for binary arithmetic operators described above.
 
 
 #### Rarely overloaded operators
-+ The address-of operator : operator&
-    + there are little to no use-cases that need to overload the default behavior of the address operator
-+ The boolean logic operators : operator&& and operator||
-    + Unlike the built-in versions, the overloads cannot implement short-circuit evaluation
-    + the overloads do not sequence their left operand before the right one
-+ The comma operator : operator,
-    + Unlike the built-in version, the overloads do not sequence their left operand before the right one
-+ The member access through pointer to member : operator->*
-    + no specific downsides to overloading this operator, but it is rarely used in practice
+* The address-of operator : operator&
+    * there are little to no use-cases that need to overload the default behavior of the address operator
+* The boolean logic operators : operator&& and operator||
+    * Unlike the built-in versions, the overloads cannot implement short-circuit evaluation
+    * the overloads do not sequence their left operand before the right one
+* The comma operator : operator,
+    * Unlike the built-in version, the overloads do not sequence their left operand before the right one
+* The member access through pointer to member : operator->*
+    * no specific downsides to overloading this operator, but it is rarely used in practice
 
 
 
 #### Best Practises
-+ there is no reason to overload an operator, if it won´t make the code easier to understand
+* there is no reason to overload an operator, if it won´t make the code easier to understand
 
 ```c++
+// The following lines are hard to understand:
 // Skalarproduct returns int
 friend int operator*(const Vector3d& left, const Vector3d& right); 
 // Crossproduct returns new Vector
-friend Vector3d operator*(const Vector3d& left, const Vector3d& right); 
+friend Vector3d operator*(const Vector3d& left, const Vector3d& right);
+
+// much better:
+friend int SkalarProduct(const Vector3d& left, const Vector3d& right);
+friend Vector3d CrossProduct(const Vector3d& left, const Vector3d& right);
 ```
 
+* Overloading an operator should always be implementet as native as possible, therefore when adding fractions there should be a fraction returned and not an int
+
+```c++
+// Bad:
+int operator+(Fraction A, Fraction B)
+{
+    //...
+    return 10;
+}
+
+// Good:
+Fraction operator+(Fraction A, Fraction B)
+{
+    Vector result;
+    //...
+    return result;
+}
+```
+* Overloading should be defined in the library namespace, because there is no need to pollute the global namespace and additionally the syntax will be less verbose 
+
+```c++
+namespace Lib {
+    class A { };
+
+    A operator+(const A&, const A&);
+} // namespace Lib
+```
+
+
 ## Conclusion
-On one hand operator overloading makes your program easier to write and to understand, on the other hand overloading does not actually add any capabilities to C++. Everything you can do with an overloaded operator you can also do with a function. However, overloaded operators make your programs easier to write, read, and maintain which in fact is a great benefit! So i would personally recommend to overload operators for defined object, if it fits the application.
-
-
-
-
+On one hand operator overloading makes your program easier to write and to understand, on the other hand overloading does not actually add any capabilities to C++. Everything you can do with an overloaded operator you can also do with a function. However, overloaded operators make your programs easier to write, read, and maintain which in fact is a great benefit! I would personally recommend to overload operators for defined objects, if it fits the application.
 
 # Template Meta Programming
 
@@ -619,6 +659,49 @@ These are languages that usually have a high degree of abstraction and a high si
 in terms of concrete problem areas.
 
 ### Variadic templates
+
+* Variadic templates take a variable number of arguments
+```c++
+template<typename... Values> class tuple; // takes zero or more arguments
+```
+* may also apply to functions
+```c++
+template<typename... Params> void printf(const std::string &str_format, Parmas... parameters);
+```
+* And use the ellipsis operator: (...), which declares a parameter pack.
+
+
+* The use of variadic templates is often recursive
+
+```c++
+// recursive
+template<typename T, typename... Args>
+void printf(const char *s, T value, Args... args)
+{
+    while (*s) {
+        if(*s == '%'){
+            ++s;
+        }
+        else {
+            std::cout << value;
+            s += 2; // only works on 2-character format strings (%d, %f ...)
+            printf(s, args...); // called even when *s is 0 but does nothing
+            return;             //in that case
+        }
+    }
+    std::cout << *s++;
+}
+// variadic template version of printf calls itself, or (in the event that args... is empty) calls the base case.
+
+```
+The variadic parameters themselves are not easy to access in the implementation of a function or class.
+
+There is no simple mechanism to iterate over the values of the variadic template. In fact it needs to be implemented in one of several ways:
+* function overloading
+* using a dumb expansion marker
+
+
+
 
 ### Conclusion
 

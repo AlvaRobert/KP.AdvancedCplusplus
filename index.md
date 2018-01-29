@@ -427,8 +427,7 @@ On one hand operator overloading makes your program easier to write and to under
 
 ## Templates in C++
 
-Templates offer the possibility in C++ to program in a generic way and to create type-safe containers. There are class templates and function templates.
-The following example shows a function template. It should be noted here that the keyword typename can also be replaced by class. For simple templates, there is no right or wrong. In the main method, the template is used in different ways. initially it is applied to the types int and double. in the next line you see a special case, different types are compared. this is not possible here, but with the addition <double> the integer is cast on double.
+Templates in C++ offer the possibility to program in a generic way and to create type-safe containers. There are class templates and function templates available. 
 
 ```C++
 #include <iostream>
@@ -447,22 +446,21 @@ int main()
     return 0;
 }
 ```
+The example shows a function template. Note that the keyword *typename* can also be replaced by *class*. In the main method, the template is used in different ways. It is initially applied to the types int and double. In the next line is a special case listed, in which different types are compared. This would not be possible here, but with the addition <double> the integer is cast to double.
 
 ## History of Template Meta Programming
 
-Templates are turing-complete. Also, they were evaluated at the compile time. That means, that all functions, that can be calculated, can be calculated with C++ Templates at compile time.
+Templates are turing-complete and are evaluated at the compile time. This means, all functions, that can be calculated, can be calculated with C++ Templates at compile time.
 In 1994, Erwin Unruh von Siemens-Nixdorf presented a program to the C++ Standard Committee, which calculated the primes up to 30 and returned them in the form of error messages. Thus he proved this fact.
 
 ## Basic Techniques of Template Meta Programming
 
-The following section will first provide an overview of important basics of template meta-programming.
+The following section will provide an overview of important basics of template meta-programming.
 
 ### Functions
 
-Template metaprogramming requires functions that produce a result
-already at the compile time. But that's about classic C ++
-Function definitions hardly possible. Therefore, one uses a trick: With the function arguments
-a class template is parameterized. The result of the function can be statically extracted via a constant member.
+Template metaprogramming requires functions that produce a result at compile time. But that's hardly possible with classic C++
+Function definitions. Therefore, a trick is used: With the function arguments a class template is parameterized. The result of the function can be statically extracted via a constant member.
 
 ```C++
 template <unsigned int x, unsigned int y>
@@ -476,9 +474,7 @@ It should also be noted that the parameters are not limited to the data type uns
 
 ### Enumeration vs. constant variable
 
-Again and again it is discussed whether the presentation of results in template functions
-over a one-element enumeration or maybe better over a constant one
-Class variable should happen:
+it is frequently discussed whether the presentation of results in template functions should be displayed with a one-element enumeration or with a constant variable:
 
 ```C++
 template <int x>
@@ -494,17 +490,12 @@ struct id_static
 };
 ```
 
-Parameterizing a class template that contains class variables causes the compiler to create and instantiate them in static memory. Values ​​of enumerations are not lvalues, so have no address and are treated as literals by the compiler. Since, according to the definition of the template metaprogramming, this refers exclusively to computation or processing at compile time, and the effect of class variables relates to translation time, and the effect of class variables goes beyond compile time, enumerations are preferable.
+Parameterizing a class template that contains class variables causes the compiler to create and instantiate them in static memory. Values ​​of enumerations are not lvalues, therefore they have no address and are treated as literals by the compiler. According to the definition of the template metaprogramming, this refers exclusively to computation or processing at compile time. The effect of class variables relates to translation time, and the effect of class variables goes beyond compile time, therefore enumerations are preferable.
 
 ### Recursion
 
-In TMP there are no variable variables, only constant ones. Therefore there can be no loops. Instead of these, in TMP recursions are used.
-A recursion cancellation is due to the specialization of the template for the corresponding
-Case defined.
+In TMP there are only constant variables. Therefore there can be no loops. Instead recursions are used. Also a recursion cancellation is defined for the corresponding case due to the specialization of the template.
 
-The following code shows a template for calculating the faculty of an integer. The first template defines the recursion step n * (n - 1) !. It instantiates
-itself, as long as there is a decrease in n by 1, until the case n = 0, which is given here by the specialized template with factorial <0>, occurs.
-It should also be noted that in the specialization factorial <0> the specified parameter 0 in angle brackets is directly behind the template name and the angle brackets behind the keyword 'template' remain empty. If the template has several parameters, the unspecified ones remain in the upper bracket while the specified ones are written to the lower one.
 
 ```C++
 template <unsigned int n>
@@ -519,13 +510,13 @@ struct factorial <0>
     enum { value = 1 };
 };
 ```
+The example shows a template for calculating the faculty of an integer. The first template defines the recursion step n * (n - 1)!. It instantiates
+itself, as long as there is a decrease in n by 1, until the case n = 0, which is given by the specialized template with factorial <0>, occurs.
+It should also be noted that in the specialization factorial <0> the specified parameter 0 in angle brackets is directly behind the template name and the angle brackets behind the keyword 'template' remain empty. If the template has several parameters, the unspecified ones remain in the upper bracket while the specified ones are written to the lower one.
 
 ### Type Functions
 
-Type functions generally mean functions that use a data type instead of a value
-as return value or make their result dependent on a data type.
-
-The following example shows the template number_type, which returns a corresponding data type depending on how many bits are passed. You can also see the template bitsize, which returns the number of bits of a data type, and the template bigger_type, which retrieves and returns the next largest data type from the previous two templates.
+Type functions generally define functions that use a data type instead of a value as return value or make their result dependent on a data type.
 
 ```C++
 #import <iostream>
@@ -569,17 +560,18 @@ int main()
 	return 0;
 }
 ```
+The example shows the template number_type, which returns a corresponding data type depending on how many bits are passed. It also shows the template bitsize, which returns the number of bits of a data type, and the template bigger_type, which retrieves and returns the next largest data type from the previous two templates.
 
 ### Recursion and conditional branching
 
-A conditional branch is a branch in the program flow by, for example, an if-else construct or the ternary expression. The evaluation of the condition happens here only at runtime. As already mentioned, however, such post-compilation time effects in the Template Meta Programming should be avoided. Actually, there are several ways to evaluate conditions already at compile time and depending on them to branch out.
+A conditional branch is a branch in the program flow defined by an if-else construct or the ternary expression. The evaluation of the condition happens at runtime. As already mentioned, such post-compilation time effects in the Template Meta Programming should be avoided. Actually, there are several ways to evaluate conditions already at compile time and depending on them to branch out.
 
 
 The following example shows three templates which should calculate, whether an integer is a prime number or not. 
 First, the template IfThenElse can be seen. This is a self-built branched condition. The first parameter is a boolean, second and third parameters are integers, which are returned if the boolean is either true or false.
 
 In the template is_prim_check the IfThenElse template will be used. If a number n is divisible by i, then 0 is returned, otherwise is_prim_check <i-1, n> is called. Termination condition of this recursion is the specialization is_prim_check <1, n>, in this case 1 is returned.
-The template is_prim checks whether the transferred integer n is a prime number or not and returns the value 0 or 1 accordingly. If 0 or 1 was passed as n, 0 will be returned, since these are not prime numbers. Otherwise the template is_prim_check with the parameters n / 2 and n is called and returned.
+The template is_prim checks whether the transferred integer n is a prime number and returns the value 0 or 1 accordingly. If 0 or 1 was passed as n, 0 will be returned, since these are not prime numbers. Otherwise the template is_prim_check with the parameters n / 2 and n is called and returned.
 
 ```C++
 template <bool cond , int true_part , int false_part>
@@ -635,28 +627,18 @@ struct is_prim <0>
 
 ### Unrolled loops
 
-Quite often happens that for certain calculations, in particular at the
-use of dynamic data structures, loops are used. In time-critical applications, loops are often "rolled up", if possible. Rolling up means that the instructions are repeated within a loop
-written among each other, so that can be dispensed with the loop. This can greatly reduce the number of total instructions executed.
-Since all control instructions of the loop are eliminated. In addition, there are no jumps in pure calculations, which additionally increases the execution speed.
-A downside to manually rolled loops is that they add dynamics and portability
-of the code very restrict. For example, high rendition of algorithms would result
-for different configurations.
-Through template metaprogramming, loops can be modeled that have a generality
-and a dynamic character when used at development time
+There are frequent use-cases that use loops. For certain calculations, in particular if dynamic data structures are used or the application calculates time-critical data, loops are often "unrolled", if possible. Unrolling means that the instructions repeated within a loop are listed plainly beneath each other, so that they can be executed from top to button synchronously. This can greatly reduce the number of total instructions executed, because all control instructions of the loop are eliminated. In addition, there are no jumps in pure calculations, which additionally increases the execution speed. A downside to manually unrolled loops is that they delete dynamics and portability of the code. 
+
+For example, high rendition of algorithms would result for different configurations. Through template metaprogramming, loops can be modeled that have a generality and a dynamic character when used at development time
 to have. After compiling such code, the compiler then generates loopless,
 in the optimal case, minimal instruction sequences.
 
 ### Expression templates
 
-Expression templates are probably the prime example of template metaprogramming.
-Generally, templates are called expression templates,
-if they can manipulate specific expressions or even enable them. Let it be
-even using Expression Templates to model completely new languages,
-which can be used within C ++. One speaks here of so-called
-DSLs (domain specific languages) or DSELs (domain specific embedded languages).
-These are languages that usually have a high degree of abstraction and a high significance
-in terms of concrete problem areas.
+Expression templates are probably the prime example of template metaprogramming. Generally, templates are called expression templates,
+if they can manipulate specific expressions or even enable them. 
+These can even be used to model completely new languages,
+which then could be used within C++. These new languages are called DSLs (domain specific languages) or DSELs (domain specific embedded languages) and usually have a high degree of abstraction and a high significance in terms of concrete problem areas.
 
 ### Variadic templates
 
@@ -705,4 +687,4 @@ There is no simple mechanism to iterate over the values of the variadic template
 
 ### Conclusion
 
-In my opinion, template meta programming is an interesting type of programming that you should always keep in mind. For special problems and especially for very time-critical applications, template meta programming can be a good choice. However, this is always associated with increased effort in programming and less readable and poorly maintainable code. therefore template meta programming should be used with caution and attention should be paid to how familiar the rest of the team is with the topic.
+In my opinion, template meta programming is an interesting type of programming that should always be kept in mind. For special problems and especially for very time-critical applications, template meta programming can be a good choice. However, the use of TMP is always associated with increased effort in programming and less readable and poorly maintainable code. Therefore template meta programming should be used with caution and you should always pay attention to how familiar the rest of the team is with the topic.

@@ -120,7 +120,7 @@ Following is the list of operators which can be overloaded:
 Following is the list of operators, which can not be overloaded:
 |      |     |     |     |     |     |
 | ---  | --- | --- | --- | --- | --- |
-| :: | .* | . | ?: | sizeof| typeid
+| :: | .* | . | ?: | sizeof| typeid |
 
 
 
@@ -342,13 +342,13 @@ User-defined classes and enumerations that implement the requirements of Bitmask
 
 |      |     |     |     |     |     |
 | ---  | --- | --- | --- | --- | --- |
-| operator&  | operator\|   | operator^   |  operator&= |  operator\|= | operator~   |
+| operator&  | operator\| | operator^   |  operator&= |  operator\|= | operator~   |
 								 
 and may optionally overload the shift operators: 
 
 |      |     |     |     |     |     |
 | ---  | --- | --- | --- | --- | --- |
-| operator<< | operator>> | operator>>= | operator<<= |
+| operator<< | operator>> | operator>>= | operator<<= | | | 
 
 The canonical implementations usually follow the pattern for binary arithmetic operators described above.
 

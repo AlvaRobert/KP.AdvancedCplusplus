@@ -108,8 +108,8 @@ ___
 ## Overloadable/Non-overloadable Operators
 Following is the list of operators which can be overloaded:
 
-|         |            |           |          |           |   |
-| ---------  |-----------   | -----       | ---         |  ---    | --- |
+|      |     |     |     |     |     |
+| ---  | --- | --- | --- | --- | --- |
 | + | - | * | / | % | ^ | 
 | & |  \| | ~ | ! | , | = |
 | < | > | <= | >= | ++ | -- |
@@ -118,8 +118,8 @@ Following is the list of operators which can be overloaded:
 | -> | ->* | new | new [] | delete | delete [] |
 
 Following is the list of operators, which can not be overloaded:
-|         |            |           |          |           |   |
-| ---------  |-----------   | -----       | ---         |  ---    | --- |
+|      |     |     |     |     |     |
+| ---  | --- | --- | --- | --- | --- |
 | :: | .* | . | ?: | sizeof| typeid
 
 
@@ -340,14 +340,15 @@ inline bool operator!=(const X& lhs, const X& rhs){ return !(lhs == rhs); }
 #### Bitwise arithmetic operators
 User-defined classes and enumerations that implement the requirements of BitmaskType are required to overload the bitwise arithmetic operators:
 
-|         |            |           |          |           |   |
-| ---------  |-----------   | -----       | ---         |  ---    | --- |
+|      |     |     |     |     |     |
+| ---  | --- | --- | --- | --- | --- |
 | operator&  | operator\|   | operator^   |  operator&= |  operator\|= | operator~   |
 								 
 and may optionally overload the shift operators: 
-|         |            |           |          |           |   |
-| ---------  |-----------   | -----       | ---         |  ---    | --- |
-operator<<	|	operator>>	|	operator>>=	|	operator<<= |
+
+|      |     |     |     |     |     |
+| ---  | --- | --- | --- | --- | --- |
+| operator<< | operator>> | operator>>= | operator<<= |
 
 The canonical implementations usually follow the pattern for binary arithmetic operators described above.
 
@@ -416,7 +417,7 @@ In 1994, Erwin Unruh von Siemens-Nixdorf presented a program to the C++ Standard
 
 The following section will first provide an overview of important basics of template meta-programming.
 
-**Functions**
+### Functions
 
 Template metaprogramming requires functions that produce a result
 already at the compile time. But that's about classic C ++
@@ -433,7 +434,7 @@ struct add
 
 It should also be noted that the parameters are not limited to the data type unsigned int. all discreet data types can be used.
 
-**Enumeration vs. constant variable**
+### Enumeration vs. constant variable
 
 Again and again it is discussed whether the presentation of results in template functions
 over a one-element enumeration or maybe better over a constant one
@@ -455,7 +456,7 @@ struct id_static
 
 Parameterizing a class template that contains class variables causes the compiler to create and instantiate them in static memory. Values ​​of enumerations are not lvalues, so have no address and are treated as literals by the compiler. Since, according to the definition of the template metaprogramming, this refers exclusively to computation or processing at compile time, and the effect of class variables relates to translation time, and the effect of class variables goes beyond compile time, enumerations are preferable.
 
-**Recursion**
+### Recursion
 
 In TMP there are no variable variables, only constant ones. Therefore there can be no loops. Instead of these, in TMP recursions are used.
 A recursion cancellation is due to the specialization of the template for the corresponding
@@ -479,7 +480,7 @@ struct factorial <0>
 };
 ```
 
-**Type Functions**
+### Type Functions
 
 Type functions generally mean functions that use a data type instead of a value
 as return value or make their result dependent on a data type.
@@ -529,7 +530,7 @@ int main()
 }
 ```
 
-**Recursion and conditional branching**
+### Recursion and conditional branching
 
 A conditional branch is a branch in the program flow by, for example, an if-else construct or the ternary expression. The evaluation of the condition happens here only at runtime. As already mentioned, however, such post-compilation time effects in the Template Meta Programming should be avoided. Actually, there are several ways to evaluate conditions already at compile time and depending on them to branch out.
 
@@ -592,7 +593,7 @@ struct is_prim <0>
 
 ## Advanced Concepts
 
-**Unrolled loops**
+### Unrolled loops
 
 Quite often happens that for certain calculations, in particular at the
 use of dynamic data structures, loops are used. In time-critical applications, loops are often "rolled up", if possible. Rolling up means that the instructions are repeated within a loop
@@ -606,7 +607,7 @@ and a dynamic character when used at development time
 to have. After compiling such code, the compiler then generates loopless,
 in the optimal case, minimal instruction sequences.
 
-**Expression templates**
+### Expression templates
 
 Expression templates are probably the prime example of template metaprogramming.
 Generally, templates are called expression templates,
@@ -617,8 +618,8 @@ DSLs (domain specific languages) or DSELs (domain specific embedded languages).
 These are languages that usually have a high degree of abstraction and a high significance
 in terms of concrete problem areas.
 
-**Variadic templates**
+### Variadic templates
 
-**Conclusion**
+### Conclusion
 
 In my opinion, template meta programming is an interesting type of programming that you should always keep in mind. For special problems and especially for very time-critical applications, template meta programming can be a good choice. However, this is always associated with increased effort in programming and less readable and poorly maintainable code. therefore template meta programming should be used with caution and attention should be paid to how familiar the rest of the team is with the topic.

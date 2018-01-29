@@ -1,4 +1,4 @@
-# AdvancedC++: Advanced C++: Operator Overloading and Template Meta-Programming
+# AdvancedC++: Operator Overloading and Template Meta-Programming
 --- 
 
 [Blockpost for Advanced C++](./index.md)

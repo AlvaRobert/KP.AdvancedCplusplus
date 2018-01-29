@@ -28,7 +28,7 @@
 
 ## Assignment
 
-+ [Read the Blockpost here](./index.md) or as [PDF](todo!).
++ [Read the Blockpost here](./index.md) or as [PDF](./assets/documents/index.pdf)
 + [Slides](https://inf-git.fh-rosenheim.de/sMECrojask/KP_Cplusplus_Adv/blob/master/Advanced%20C++%20final.pdf)
 + [Übungen](https://inf-git.fh-rosenheim.de/sMECrojask/KP_Cplusplus_Adv)
 
